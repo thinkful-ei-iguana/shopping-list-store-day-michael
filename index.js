@@ -14,7 +14,9 @@ const generateItemElement = function (item) {
   let itemTitle = `<span class='shopping-item shopping-item__checked'>${item.name}</span>`;
   if (!item.checked) {
     itemTitle = `
-     <span class='shopping-item'>${item.name}</span>
+    <form class='js-item-edit'>
+      <input class='shopping-item' type="text" value="${item.name}"></input>
+    </form>
     `;
   }
 
@@ -28,8 +30,6 @@ const generateItemElement = function (item) {
         <button class='shopping-item-delete js-item-delete'>
           <span class='button-label'>delete</span>
         </button>
-        <button class='shopping-item-edit js-item-toggle'>
-        <span class='button-label'>edit</span
       </div>
     </li>`;
 };
@@ -149,10 +149,17 @@ const handleToggleFilterClick = function () {
   });
 };
 
-function editTitle(){
+function editItemTitle(id, itemName){
+  const item = store.items.find(item => item.id === id);
+  item.name = itemName;
+}
+
+function handleEditTitle(){
   $('.js-shopping-list').on('click', '.js-item-edit', event => {
+    event.preventDefault;
     const id = getItemIdFromElement(event.currentTarget);
-    toggleCheckedForListItem(id);
+    const itemName = $(event.currentTarget).find('.shopping-item').val();
+    editItemTitle(id, itemName);
     render();
   });
 }
@@ -172,6 +179,7 @@ const handleShoppingList = function () {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleFilterClick();
+  handleEditTitle();
 };
 
 // when the page loads, call `handleShoppingList`
