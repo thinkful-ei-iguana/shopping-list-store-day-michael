@@ -1,3 +1,5 @@
+'use strict';
+
 const store = {
   items: [
     { id: cuid(), name: 'apples', checked: false },
@@ -26,6 +28,8 @@ const generateItemElement = function (item) {
         <button class='shopping-item-delete js-item-delete'>
           <span class='button-label'>delete</span>
         </button>
+        <button class='shopping-item-edit js-item-toggle'>
+        <span class='button-label'>edit</span
       </div>
     </li>`;
 };
@@ -144,6 +148,14 @@ const handleToggleFilterClick = function () {
     render();
   });
 };
+
+function editTitle(){
+  $('.js-shopping-list').on('click', '.js-item-edit', event => {
+    const id = getItemIdFromElement(event.currentTarget);
+    toggleCheckedForListItem(id);
+    render();
+  });
+}
 
 /**
  * This function will be our callback when the
